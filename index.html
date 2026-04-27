@@ -3,104 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reprodutor de Sons Pulmonares</title>
+    <title>Simulado de Semiologia Pulmonar</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 800px;
-        }
-        h2 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #3498db;
-            color: white;
-            border-radius: 4px 4px 0 0;
-        }
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-        audio {
-            height: 35px;
-            width: 250px;
-        }
-        .sound-name {
-            font-weight: bold;
-            color: #34495e;
-            text-transform: capitalize;
-        }
+        :root { --primary: #4f46e5; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --success: #22c55e; --error: #ef4444; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { background: var(--card); width: 100%; max-width: 900px; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .screen { display: none; }
+        .active { display: block; }
+        h1, h2 { text-align: center; color: var(--primary); }
+        
+        /* Tabela de Estudo */
+        .table-container { overflow-x: auto; margin: 20px 0; border-radius: 10px; border: 1px solid #e2e8f0; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: white; }
+        th { background: #4f46e5; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #e2e8f0; line-height: 1.4; }
+        tr:nth-child(even) { background: #f8fafc; }
+
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s; margin-top: 10px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: #4338ca; }
+        
+        .sound-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 20px 0; }
+        .sound-item { background: #f1f5f9; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+        
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
+        #progress { height: 100%; background: var(--primary); width: 0%; transition: 0.4s; }
+        .case-box { background: #f8fafc; border-left: 4px solid var(--primary); padding: 15px; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; text-align: justify; }
+        .audio-btn { width: 60px; height: 60px; background: var(--primary); border: none; border-radius: 50%; cursor: pointer; display: block; margin: 0 auto 20px; }
+        input[type="text"] { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; width: 100%; margin-bottom: 10px; }
+        .feedback-area { text-align: center; font-weight: bold; margin: 10px 0; min-height: 24px; }
+        .hidden { display: none; }
+
+        .result-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; border-radius: 8px; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; }
+        .mini-audio-btn { background: #e2e8f0; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 0.8rem; }
+        .tag { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+        .tag-error { background: #fee2e2; color: #ef4444; }
+        .tag-success { background: #dcfce7; color: #22c55e; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Biblioteca de Ausculta Pulmonar</h2>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>Tipo de Som</th>
-                <th>Reprodutor</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="sound-name">Som Bronquivesicular</td>
-                <td><audio controls src="som_bronquivesicular.mp3"></audio></td>
-            </tr>
-            <tr>
-                <td class="sound-name">Som Brônquico</td>
-                <td><audio controls src="som_bronquico.mp3"></audio></td>
-            </tr>
-            <tr>
-                <td class="sound-name">Sibilo</td>
-                <td><audio controls src="sibilo.mp3"></audio></td>
-            </tr>
-            <tr>
-                <td class="sound-name">Ronco</td>
-                <td><audio controls src="romco.mp3"></audio></td>
-            </tr>
-            <tr>
-                <td class="sound-name">Murmúrio Vesicular</td>
-                <td><audio controls src="mormurio_vesicular.mp3"></audio></td>
-            </tr>
-            <tr>
-                <td class="sound-name">Estridor Grosso</td>
-                <td><audio controls src="estridor_grosso.mp3"></audio></td>
-            </tr>
-            <tr>
-                <td class="sound-name">Atrito Pleural</td>
-                <td><audio controls src="atrito_pleural.mp3"></audio></td>
-            </tr>
-            <tr>
-                <td class="sound-name">Estridor</td>
-                <td><audio controls src="estridor.mp3"></audio></td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="start-screen" class="screen active">
+        <h1>Simulado de Semiologia Pulmonar</h1>
+        
+        <h3>Guia de Referência Rápida</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Som</th>
+                        <th>Fisiopatologia</th>
+                        <th>Exame Físico</th>
+                        <th>Patologias</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><b>Estertor Fino</b></td><td>Abertura súbita de alvéolos colapsados no fim da inspiração.</td><td>FTV normal/aumentado; submacicez; não muda com tosse.</td><td>IC, Pneumonia (inicial), Fibrose.</td></tr>
+                    <tr><td><b>Estertor Grosso</b></td><td>Ar por secreções em grandes/médias vias aéreas.</td><td>FTV normal/reduzido; frêmito brônquico; muda com tosse.</td><td>Bronquites, Bronquiectasias, EAP.</td></tr>
+                    <tr><td><b>Sibilo</b></td><td>Fluxo em alta velocidade por brônquios estreitados.</td><td>Expiração prolongada; hipersonoridade; musculatura acessória.</td><td>Asma, DPOC, Anafilaxia.</td></tr>
+                    <tr><td><b>Atrito Pleural</b></td><td>Fricção entre as pleuras inflamadas e ásperas.</td><td>Dor em "pontada"; desaparece em apneia; expansibilidade reduzida.</td><td>Pleurites, TEP, Lúpus.</td></tr>
+                    <tr><td><b>Estridor</b></td><td>Obstrução de vias aéreas superiores (laringe).</td><td>Tiragem; batimento asa nariz; audível sem esteto.</td><td>Laringite, Corpo estranho.</td></tr>
+                    <tr><td><b>Som Brônquico</b></td><td>Transmissão da traqueia via tecido sólido (consolidação).</td><td>FTV muito aumentado; macicez; ausculta em periferia.</td><td>Pneumonia lobar, Cavernas.</td></tr>
+                    <tr><td><b>Murmúrio Vesicular</b></td><td>Fluxo turbulento em parênquima saudável.</td><td>Tórax normolíneo; expansibilidade simétrica.</td><td>Indivíduo hígido.</td></tr>
+                    <tr><td><b>Broncovesicular</b></td><td>Mistura de sons traqueais e alveolares.</td><td>Regiões de transição (interescapular).</td><td>Fisiológico em áreas específicas.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Treine seus ouvidos antes de começar:</h3>
+        <div class="sound-list" id="initial-list"></div>
+
+        <button class="btn btn-primary" onclick="startQuiz(false)">Começar Simulado Completo</button>
+    </div>
+
+    <div id="game-screen" class="screen">
+        <div class="progress-bar"><div id="progress"></div></div>
+        <p id="q-counter" style="text-align:center; font-size: 0.8rem; font-weight: bold;"></p>
+        <div class="case-box" id="case-text"></div>
+        <button class="audio-btn" onclick="playCurrentAudio()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <audio id="main-audio" preload="auto"></audio>
+        <input type="text" id="user-answer" placeholder="Digite o nome do som..." autocomplete="off">
+        <div id="feedback" class="feedback-area"></div>
+        <button id="check-btn" class="btn btn-primary" onclick="checkAnswer()">Conferir Resposta</button>
+        <button id="next-btn" class="btn btn-primary hidden" style="background:#1e293b" onclick="nextQuestion()">Próximo Caso ➡️</button>
+    </div>
+
+    <div id="result-screen" class="screen">
+        <h2>Resultado Final</h2>
+        <p id="final-score" style="text-align:center; font-weight:bold; font-size: 1.2rem;"></p>
+        <div id="results-review"></div>
+        <button id="retry-errors-btn" class="btn hidden" style="background:#6366f1; color:white;" onclick="startQuiz(true)">Revisar Apenas Erros 🔄</button>
+        <button class="btn btn-primary" onclick="location.reload()">Voltar ao Início</button>
+    </div>
 </div>
 
+<script>
+    const database = [
+        { name: 'Estertor Fino', file: 'estertor fino.m4a', contexts: ['Paciente de 70 anos com insuficiência cardíaca descompensada. Apresenta ortopneia e edema de membros inferiores ++/4+. Na percussão, nota-se submacicez em bases pulmonares e a palpação demonstra expansibilidade levemente diminuída. O diagnóstico provável é congestão pulmonar passiva.', 'Homem de 50 anos com febre de 39°C, calafrios e tosse com expectoração herrugeante há 2 dias. No exame físico, apresenta aumento do frêmito toraco-vocal (FTV) no lobo inferior direito e macicez à percussão localizada.', 'Mulher de 65 anos com queixa de dispneia progressiva aos esforços há 1 ano. Apresenta baqueteamento digital e sinais de perda de volume pulmonar na inspeção dinâmica.'] },
+        { name: 'Sibilo', file: 'SIBILO.m4a', contexts: ['Paciente de 12 anos chega à emergência com taquipneia, uso de musculatura acessória e tiragem intercostal. Relata histórico familiar de atopias. O tórax parece hiperinsuflado e a percussão revela hipersonoridade difusa.', 'Homem de 58 anos, tabagista crônico, apresenta-se com tórax em tonel, cianose de extremidades e tosse produtiva. O frêmito toraco-vocal está globalmente reduzido e o tempo expiratório parece visivelmente prolongado.', 'Paciente jovem com queixa de "aperto no peito" e falta de ar após contato com animais domésticos. Apresenta-se ansioso, com fala entrecortada e sudorese profusa, sem sinais de consolidação ao exame físico.'] },
+        { name: 'Atrito Pleural', file: 'atrito pleural.m4a', contexts: ['Paciente de 28 anos com dor torácica aguda, pontual, que se intensifica significativamente durante a inspiração profunda e tosse. Relata melhora parcial ao deitar-se sobre o lado afetado. A expansibilidade está reduzida unilateralmente.', 'Homem em investigação para tromboembolismo pulmonar apresenta dor pleurítica súbita no hemitórax esquerdo. Não há sinais de secreção nas vias aéreas ou febre. O ruído percebido no local da dor desaparece se o paciente sustentar a apneia.', 'Paciente com lúpus eritematoso sistêmico apresenta-se com inflamação das serosas. Queixa-se de desconforto respiratório e dor aguda lateral. O exame físico não demonstra sinais de consolidação, mas a dor limita a excursão respiratória.'] },
+        { name: 'Estridor', file: 'ESTRIDOR.m4a', contexts: ['Criança de 2 anos levada ao pronto-socorro após episódio súbito de engasgo enquanto brincava. Apresenta-se cianótica, com batimento de asa de nariz e retração supraesternal acentuada. O quadro sugere obstrução alta.', 'Paciente de 20 anos com quadro de anafilaxia após ingestão de amendoim. Apresenta edema labial e facial, evoluindo rapidamente com grande esforço respiratório focado na região cervical.', 'Idoso com câncer de esôfago avançado que apresenta invasão local da traqueia. Queixa-se de dificuldade progressiva para respirar que piora em decúbito dorsal. A palpação da traqueia revela vibrações anômalas no ciclo.'] },
+        { name: 'Murmúrio Vesicular', file: 'Murmurio_vesicular.m4a', contexts: ['Estudante de 22 anos realiza exame físico admissional. Na inspeção estática e dinâmica, o tórax é normolíneo e a expansibilidade é simétrica. A percussão demonstra som claro pulmonar em todos os campos.', 'Paciente assintomático durante avaliação pré-operatória. O exame respiratório mostra frêmito toraco-vocal normal e ausência de qualquer sinal de patologia pulmonar ou pleural nas manobras de palpação.', 'Avaliação de um pulmão saudável durante aula prática. O parênquima está íntegro e as vias aéreas estão livres. A percussão das áreas infraescapulares e axilares resulta em sonoridade pulmonar normal.'] },
+        { name: 'Estertor Grosso', file: 'estertor grosso.m4a', contexts: ['Paciente com bronquiectasias apresenta tosse produtiva com expectoração volumosa. No exame físico, percebem-se vibrações grosseiras à palpação torácica (frêmito brônquico) que diminuem após a expectoração.', 'Idoso com pneumonia nosocomial em paciente acamado. Apresenta grande quantidade de secreção em vias aéreas centrais. A tosse é ineficaz e observa-se desconforto respiratório moderado com taquipneia.', 'Paciente com edema agudo de pulmão evoluindo para insuficiência respiratória. Apresenta expectoração espumosa e rosada. O líquido parece ocupar tanto os alvéolos quanto as vias aéreas de condução.'] },
+        { name: 'Som Brônquico', file: 'SOM BRÔNQUICO.m4a', contexts: ['Exame físico realizado sobre a região da traqueia e laringe em um indivíduo normal. Esta é a região anatômica padrão para o achado fisiológico deste tipo de som devido ao calibre da via aérea.', 'Paciente com pneumonia extensa consolidando todo o lobo superior direito. O parênquima pulmonar tornou-se uma massa sólida, facilitando a transmissão dos sons das vias aéreas centrais para a parede torácica.', 'Grande caverna tuberculosa localizada no ápice pulmonar, que se comunica livremente com um brônquio de grande calibre. O exame físico revela macicez percutória ao redor da área cavitária.'] },
+        { name: 'Som Broncovesicular', file: 'SOM BRONCOVESICULAR.m4a', contexts: ['Ausculta realizada na região esternal superior e no segundo espaço intercostal de um paciente hígido. Estas áreas correspondem à sobreposição dos grandes brônquios com o parênquima periférico.', 'Avaliação da região interescapular de um adulto jovem durante exame físico de rotina. Esta área é conhecida por apresentar uma mistura de características dos sons centrais e periféricos.', 'Paciente sem queixas respiratórias em exame clínico. O médico avalia a região hilar anterior. Os demais pilares do exame (inspeção, palpação e percussão) encontram-se dentro da normalidade.'] }
+    ];
+
+    let quizList = [];
+    let currentIdx = 0;
+    let score = 0;
+    let history = [];
+
+    // Lista de sons com áudio
+    const initialListDiv = document.getElementById('initial-list');
+    database.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'sound-item';
+        div.innerHTML = `<span>${s.name}</span><button class="mini-audio-btn" onclick="new Audio('${s.file}').play()">🎧</button>`;
+        initialListDiv.appendChild(div);
+    });
+
+    function shuffle(array) { return array.sort(() => Math.random() - 0.5); }
+    function normalize(str) { return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim(); }
+
+    function startQuiz(onlyErrors = false) {
+        if (onlyErrors) {
+            quizList = shuffle(history.filter(h => !h.isCorrect).map(h => ({name: h.name, file: h.file, ctx: h.ctx})));
+        } else {
+            let pool = [];
+            database.forEach(s => s.contexts.forEach(ctx => pool.push({name: s.name, file: s.file, ctx: ctx})));
+            quizList = shuffle(pool);
+        }
+        currentIdx = 0; score = 0; history = [];
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('game-screen').classList.add('active');
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const q = quizList[currentIdx];
+        document.getElementById('case-text').innerText = q.ctx;
+        document.getElementById('main-audio').src = q.file;
+        document.getElementById('user-answer').value = '';
+        document.getElementById('user-answer').disabled = false;
+        document.getElementById('feedback').innerText = '';
+        document.getElementById('check-btn').classList.remove('hidden');
+        document.getElementById('next-btn').classList.add('hidden');
+        document.getElementById('q-counter').innerText = `QUESTÃO ${currentIdx + 1} DE ${quizList.length}`;
+        document.getElementById('progress').style.width = `${((currentIdx + 1) / quizList.length) * 100}%`;
+    }
+
+    function playCurrentAudio() {
+        const audio = document.getElementById('main-audio');
+        audio.currentTime = 0;
+        audio.play().catch(e => alert("Erro ao carregar áudio."));
+    }
+
+    function checkAnswer() {
+        const q = quizList[currentIdx];
+        const userAns = document.getElementById('user-answer').value;
+        const isCorrect = normalize(userAns) === normalize(q.name);
+        
+        document.getElementById('user-answer').disabled = true;
+        document.getElementById('check-btn').classList.add('hidden');
+        document.getElementById('next-btn').classList.remove('hidden');
+
+        const feedback = document.getElementById('feedback');
+        if(isCorrect) {
+            feedback.innerHTML = `<span style="color:var(--success)">✅ Correto!</span>`;
+            score++;
+        } else {
+            feedback.innerHTML = `<span style="color:var(--error)">❌ Incorreto. O som é: ${q.name}</span>`;
+        }
+        history.push({ ...q, userAns, isCorrect });
+    }
+
+    function nextQuestion() {
+        currentIdx++;
+        if(currentIdx < quizList.length) showQuestion();
+        else showFinalResults();
+    }
+
+    function showFinalResults() {
+        document.getElementById('game-screen').classList.remove('active');
+        document.getElementById('result-screen').classList.add('active');
+        document.getElementById('final-score').innerText = `Você acertou ${score} de ${quizList.length}`;
+        
+        const reviewDiv = document.getElementById('results-review');
+        reviewDiv.innerHTML = '<h3>Revisão Detalhada:</h3>';
+        history.forEach((item) => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.innerHTML = `
+                <div>
+                    <span class="tag ${item.isCorrect ? 'tag-success' : 'tag-error'}">${item.isCorrect ? 'Acerto' : 'Erro'}</span>
+                    <div style="font-size:0.85rem; margin-top:5px;"><strong>Som:</strong> ${item.name}</div>
+                </div>
+                <button class="mini-audio-btn" onclick="new Audio('${item.file}').play()">▶️</button>
+            `;
+            reviewDiv.appendChild(div);
+        });
+
+        const hasErrors = history.some(h => !h.isCorrect);
+        document.getElementById('retry-errors-btn').classList.toggle('hidden', !hasErrors);
+    }
+</script>
 </body>
 </html>
