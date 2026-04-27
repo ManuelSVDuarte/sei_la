@@ -30,7 +30,7 @@
         #progress { height: 100%; background: var(--primary); width: 0%; transition: 0.4s; }
         .case-box { background: #f8fafc; border-left: 4px solid var(--primary); padding: 15px; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; text-align: justify; }
         .audio-btn { width: 60px; height: 60px; background: var(--primary); border: none; border-radius: 50%; cursor: pointer; display: block; margin: 0 auto 20px; }
-        input[type="text"] { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; margin-bottom: 10px; }
+        input[type="text"] { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; width: 100%; margin-bottom: 10px; }
         .feedback-area { text-align: center; font-weight: bold; margin: 10px 0; min-height: 24px; }
         .hidden { display: none; }
 
@@ -59,6 +59,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr><td><b>Ronco</b></td><td>Obstrução das vias aéreas por secreções ou estreitamento.</td><td>FTV diminuído; expiração prolongada; muda com a tosse.</td><td>DPOC, Bronquites.</td></tr>
                     <tr><td><b>Estertor Fino</b></td><td>Abertura súbita de alvéolos colapsados no fim da inspiração.</td><td>FTV normal/aumentado; submacicez; não muda com tosse.</td><td>IC, Pneumonia (inicial), Fibrose.</td></tr>
                     <tr><td><b>Estertor Grosso</b></td><td>Ar por secreções em grandes/médias vias aéreas.</td><td>FTV normal/reduzido; frêmito brônquico; muda com tosse.</td><td>Bronquites, Bronquiectasias, EAP.</td></tr>
                     <tr><td><b>Sibilo</b></td><td>Fluxo em alta velocidade por brônquios estreitados.</td><td>Expiração prolongada; hipersonoridade; musculatura acessória.</td><td>Asma, DPOC, Anafilaxia.</td></tr>
@@ -101,8 +102,16 @@
 </div>
 
 <script>
-    // CORREÇÃO: Nomes dos arquivos ajustados para bater com o log de upload (minúsculas e underscores)
     const database = [
+        { 
+            name: 'Ronco', 
+            file: 'romco.mp3', 
+            contexts: [
+                'Paciente masculino, 65 anos, tabagista crônico, chega com queixa de tosse produtiva e falta de ar. Ao exame físico, apresenta o tórax em tonel e utiliza a musculatura acessória. O FTV está globalmente diminuído e a percussão revela hipersonoridade.', 
+                'Mulher de 58 anos, exposta à fumaça de lenha por décadas, apresenta tosse com muco há meses. Relata que o peito parece "chiar" e "roncar" pela manhã. Os sons rudes ouvidos na ausculta tendem a diminuir ou mudar de posição após a paciente tossir.', 
+                'Paciente internado por quadro respiratório arrastado. Apresenta dificuldade em manejar secreções brônquicas, esforço respiratório e expiração prolongada. A ausculta revela ruídos graves e contínuos em campos médios e bases.'
+            ] 
+        },
         { name: 'Estertor Fino', file: 'estridor_grosso.mp3', contexts: ['Paciente de 70 anos com insuficiência cardíaca descompensada. Apresenta ortopneia e edema de membros inferiores ++/4+. Na percussão, nota-se submacicez em bases pulmonares e a palpação demonstra expansibilidade levemente diminuída. O diagnóstico provável é congestão pulmonar passiva.', 'Homem de 50 anos com febre de 39°C, calafrios e tosse com expectoração herrugeante há 2 dias. No exame físico, apresenta aumento do frêmito toraco-vocal (FTV) no lobo inferior direito e macicez à percussão localizada.', 'Mulher de 65 anos com queixa de dispneia progressiva aos esforços há 1 ano. Apresenta baqueteamento digital e sinais de perda de volume pulmonar na inspeção dinâmica.'] },
         { name: 'Sibilo', file: 'sibilo.mp3', contexts: ['Paciente de 12 anos chega à emergência com taquipneia, uso de musculatura acessória e tiragem intercostal. Relata histórico familiar de atopias. O tórax parece hiperinsuflado e a percussão revela hipersonoridade difusa.', 'Homem de 58 anos, tabagista crônico, apresenta-se com tórax em tonel, cianose de extremidades e tosse produtiva. O frêmito toraco-vocal está globalmente reduzido e o tempo expiratório parece visivelmente prolongado.', 'Paciente jovem com queixa de "aperto no peito" e falta de ar após contato com animais domésticos. Apresenta-se ansioso, com fala entrecortada e sudorese profusa, sem sinais de consolidação ao exame físico.'] },
         { name: 'Atrito Pleural', file: 'atrito_pleural.mp3', contexts: ['Paciente de 28 anos com dor torácica aguda, pontual, que se intensifica significativamente durante a inspiração profunda e tosse. Relata melhora parcial ao deitar-se sobre o lado afetado. A expansibilidade está reduzida unilateralmente.', 'Homem em investigação para tromboembolismo pulmonar apresenta dor pleurítica súbita no hemitórax esquerdo. Não há sinais de secreção nas vias aéreas ou febre. O ruído percebido no local da dor desaparece se o paciente sustentar a apneia.', 'Paciente com lúpus eritematoso sistêmico apresenta-se com inflamação das serosas. Queixa-se de desconforto respiratório e dor aguda lateral. O exame físico não demonstra sinais de consolidação, mas a dor limita a excursão respiratória.'] },
@@ -118,6 +127,7 @@
     let score = 0;
     let history = [];
 
+    // Lista de sons com áudio
     const initialListDiv = document.getElementById('initial-list');
     database.forEach(s => {
         const div = document.createElement('div');
@@ -159,7 +169,7 @@
     function playCurrentAudio() {
         const audio = document.getElementById('main-audio');
         audio.currentTime = 0;
-        audio.play().catch(e => alert("Erro ao carregar áudio. Verifique se o arquivo " + audio.src + " existe."));
+        audio.play().catch(e => alert("Erro ao carregar áudio."));
     }
 
     function checkAnswer() {
