@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reprodutor de Sons Pulmonares</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            border-radius: 4px 4px 0 0;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        audio {
+            height: 35px;
+            width: 250px;
+        }
+        .sound-name {
+            font-weight: bold;
+            color: #34495e;
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Biblioteca de Ausculta Pulmonar</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo de Som</th>
+                <th>Reprodutor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="sound-name">Som Bronquivesicular</td>
+                <td><audio controls src="som_bronquivesicular.mp3"></audio></td>
+            </tr>
+            <tr>
+                <td class="sound-name">Som Brônquico</td>
+                <td><audio controls src="som_bronquico.mp3"></audio></td>
+            </tr>
+            <tr>
+                <td class="sound-name">Sibilo</td>
+                <td><audio controls src="sibilo.mp3"></audio></td>
+            </tr>
+            <tr>
+                <td class="sound-name">Ronco</td>
+                <td><audio controls src="romco.mp3"></audio></td>
+            </tr>
+            <tr>
+                <td class="sound-name">Murmúrio Vesicular</td>
+                <td><audio controls src="mormurio_vesicular.mp3"></audio></td>
+            </tr>
+            <tr>
+                <td class="sound-name">Estridor Grosso</td>
+                <td><audio controls src="estridor_grosso.mp3"></audio></td>
+            </tr>
+            <tr>
+                <td class="sound-name">Atrito Pleural</td>
+                <td><audio controls src="atrito_pleural.mp3"></audio></td>
+            </tr>
+            <tr>
+                <td class="sound-name">Estridor</td>
+                <td><audio controls src="estridor.mp3"></audio></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
